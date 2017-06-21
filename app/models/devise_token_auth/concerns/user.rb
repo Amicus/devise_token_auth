@@ -158,7 +158,7 @@ module DeviseTokenAuth::Concerns::User
       updated_at && last_token &&
 
       # ensure that previous token falls within the batch buffer throttle time of the last request
-      Time.parse(updated_at) > Time.now - DeviseTokenAuth.batch_request_buffer_throttle &&
+      Time.parse(updated_at.to_s) > Time.now - DeviseTokenAuth.batch_request_buffer_throttle &&
 
       # ensure that the token is valid
       ::BCrypt::Password.new(last_token) == token
