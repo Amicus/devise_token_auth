@@ -64,7 +64,11 @@ module DeviseTokenAuth
       remove_instance_variable(:@token) if @token
 
       if user && client_id && user.tokens[client_id]
-        user.tokens.delete(client_id)
+        if @delete_all_tokens
+          user.tokens = {}
+        else
+          user.tokens.delete(client_id)
+        end
         user.save!
 
         yield user if block_given?
